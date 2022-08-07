@@ -1,59 +1,33 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import uuid from "react-native-uuid";
+import TodoInput from "./components/TodoInput";
+import TodoItemList from "./components/TodoItemList";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 export default function App() {
-  const [todoText, setTodoText] = useState("");
   const [todos, setTodos] = useState([]);
 
-  function todoInputHandler(text) {
-    setTodoText(text);
-  }
-
-  function addTodoHandler() {
+  function addTodoHandler(text) {
+    console.log("addTodoHandler", text);
     setTodos((currentTodos) => [
       ...currentTodos,
       {
         id: uuid.v4(),
-        text: todoText,
+        text: text,
       },
     ]);
   }
 
   return (
-    <View style={styles.appContainer}>
-      <View style={styles.todoList}>
-        <FlatList
-          data={todos}
-          renderItem={(itemObject) => {
-            return (
-              <View style={styles.todoItemContainer}>
-                <Text style={styles.todoItemText}>{itemObject.item.text}</Text>
-              </View>
-            );
-          }}
-          keyExtractor={(item, index) => {
-            return item.id
-          }}
-        />
+    <RootSiblingParent>
+      <View style={styles.appContainer}>
+        <View style={styles.todoList}>
+          <TodoItemList todos={todos} />
+        </View>
+        <TodoInput onPress={addTodoHandler} />
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Type todo activities.."
-          style={styles.textInput}
-          onChangeText={todoInputHandler}
-        />
-        <Button title="Add Todo!" onPress={addTodoHandler} />
-      </View>
-    </View>
+    </RootSiblingParent>
   );
 }
 
@@ -64,31 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
   },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#aaa",
-    paddingTop: 24,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    width: "70%",
-    marginRight: 8,
-    padding: 8,
-  },
   todoList: {
     flex: 1,
-  },
-  todoItemContainer: {
-    backgroundColor: "#eee",
-    padding: 10,
-    marginBottom: 6,
-    borderRadius: 6,
-  },
-  todoItemText: {
-    color: "#333",
   },
 });
