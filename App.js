@@ -5,8 +5,10 @@ import {
   View,
   Button,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { useState } from "react";
+import uuid from "react-native-uuid";
 
 export default function App() {
   const [todoText, setTodoText] = useState("");
@@ -17,19 +19,31 @@ export default function App() {
   }
 
   function addTodoHandler() {
-    setTodos((currentTodos) => [...currentTodos, todoText]);
+    setTodos((currentTodos) => [
+      ...currentTodos,
+      {
+        id: uuid.v4(),
+        text: todoText,
+      },
+    ]);
   }
 
   return (
     <View style={styles.appContainer}>
       <View style={styles.todoList}>
-        <ScrollView>
-          {todos.map((todo, index) => (
-            <View key={index} style={styles.todoItemContainer}>
-              <Text style={styles.todoItemText}>{todo}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        <FlatList
+          data={todos}
+          renderItem={(itemObject) => {
+            return (
+              <View style={styles.todoItemContainer}>
+                <Text style={styles.todoItemText}>{itemObject.item.text}</Text>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item.id
+          }}
+        />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
