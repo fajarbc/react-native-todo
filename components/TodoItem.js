@@ -1,21 +1,33 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 function TodoItem(props) {
   return (
-    <View style={styles.todoItemContainer}>
-      <Text style={styles.todoItemText}>{props.text}</Text>
-    </View>
+    <Pressable
+      onPress={props.onPress.bind(this, props.item)}
+      android_ripple={{ color: "#E2703A" }}
+      style={({ pressed }) => {
+        return pressed ? styles.itemOnPress : styles.todoItemContainer;
+      }}
+    >
+      <Text style={styles.todoItemText}>{props.item.text}</Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   todoItemContainer: {
-    backgroundColor: "#eee",
+    backgroundColor: "#F5E8E4",
     padding: 10,
     marginBottom: 6,
     borderRadius: 6,
   },
+  itemOnPress: {
+    padding: 10,
+    marginBottom: 6,
+    borderRadius: 6,
+    backgroundColor: "#DDD",
+  },
   todoItemText: {
-    color: "#333",
+    color: "#993300",
   },
 });
 

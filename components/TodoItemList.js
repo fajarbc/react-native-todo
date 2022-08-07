@@ -4,9 +4,9 @@ import TodoItem from "./TodoItem";
 function TodoItemList(props) {
   return (
     <FlatList
-      data={props.todos}
+      data={props.data}
       renderItem={(itemObject) => {
-        return <TodoItem text={itemObject.item.text} />;
+        return <TodoItem item={itemObject.item} onPress={props.onItemPress}/>;
       }}
       keyExtractor={(item, index) => {
         return item.id;
