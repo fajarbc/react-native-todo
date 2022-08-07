@@ -20,3 +20,18 @@ React Native Basic Todo App, with Expo CLI
    2. Emulator Device
       1. If Android, press **a**
       2. If IOS, press **i**
+
+# Build
+- Make sure you have installed expo-cli and eas-cli. More on https://docs.expo.dev/archive/classic-updates/building-standalone-apps/
+  ```
+  npm install -g expo-cli
+  npm install -g eas-cli
+  ```
+- Build
+  ```
+  expo build:android -t apk
+  ```
+  Or
+  ```
+  eas build -p android
+  ```
